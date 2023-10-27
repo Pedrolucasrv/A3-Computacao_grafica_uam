@@ -11,7 +11,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 public class Renderer {
     private static GLWindow window = null;
     public static int screenWidth = 480;  //1280
-    public static int screenHeight = 480; //960 
+    public static int screenHeight = 480; //960
 
     //Cria a janela de rendeziração do JOGL
     public static void init(){        
@@ -20,6 +20,7 @@ public class Renderer {
         GLCapabilities caps = new GLCapabilities(profile);        
         window = GLWindow.create(caps);
         window.setSize(screenWidth, screenHeight);
+        window.setFullscreen(true);
         //window.setResizable(false);
         
         Cena cena = new Cena();

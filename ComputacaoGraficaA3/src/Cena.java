@@ -10,7 +10,7 @@ import com.jogamp.newt.opengl.GLWindow;
  */
 public class Cena implements GLEventListener{    
     private float xMin, xMax, yMin, yMax, zMin, zMax;
-    public float localizacao = 0;
+    public float localizacaoXBarra = 0f;
     GLU glu;
 
     @Override
@@ -27,28 +27,43 @@ public class Cena implements GLEventListener{
     public void display(GLAutoDrawable drawable) {  
         //obtem o contexto Opengl
 
-        GL2 gl = drawable.getGL().getGL2();                
+        GL2 fundo = drawable.getGL().getGL2();
         //define a cor da janela (R, G, G, alpha)
-        gl.glClearColor(1, 1, 1, 1);
+        fundo.glClearColor(1, 1, 1, 1);
         //limpa a janela com a cor especificada
-        gl.glClear(GL2.GL_COLOR_BUFFER_BIT);       
-        gl.glLoadIdentity(); //lê a matriz identidade
+        fundo.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        fundo.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 barra = drawable.getGL().getGL2();
+        //define a cor da janela (R, G, G, alpha)
+        barra.glClearColor(1, 1, 1, 1);
+        //limpa a janela com a cor especificada
+        barra.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        barra.glLoadIdentity(); //lê a matriz identidade
 
         /*
             desenho da cena
         */
 
+        //seta um quadrado para ser o fundo
+        fundo.glColor3f(0.0f,0.5f, 0.0f);
+        fundo.glBegin(GL2.GL_QUADS);
+        fundo.glVertex2f(1f, 1f);
+        fundo.glVertex2f(1f, -1f);
+        fundo.glVertex2f(-1f, -1f);
+        fundo.glVertex2f(-1f, 1f);
+        fundo.glEnd();
+
         //desenha um quadrado AZUL
-        gl.glColor3f(0,0,1);
-        gl.glBegin(GL2.GL_QUADS);
-            gl.glVertex2f(-0.15f + localizacao, -0.7f);
-            gl.glVertex2f(-0.15f + localizacao, -0.8f);
-            gl.glVertex2f(0.15f + localizacao, -0.8f);
-            gl.glVertex2f(0.15f + localizacao, -0.7f);
-        gl.glEnd();
+        barra.glColor3f(0,0,1);
+        barra.glBegin(GL2.GL_QUADS);
+        barra.glVertex2f(localizacaoXBarra - 0.15f, -0.7f);
+        barra.glVertex2f(localizacaoXBarra - 0.15f, -0.8f);
+        barra.glVertex2f(localizacaoXBarra + 0.15f, -0.8f);
+        barra.glVertex2f(localizacaoXBarra + 0.15f, -0.7f);
+        barra.glEnd();
 
-
-        gl.glFlush();
+        barra.glFlush();
     }
 
     @Override
