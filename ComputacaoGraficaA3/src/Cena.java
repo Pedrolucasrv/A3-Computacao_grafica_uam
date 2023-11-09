@@ -4,6 +4,10 @@ import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.newt.opengl.GLWindow;
 
+
+import static com.jogamp.opengl.GL.GL_TEXTURE_2D;
+import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_S;
+
 /**
  *
  * @author Kakugawa
@@ -46,6 +50,10 @@ public class Cena implements GLEventListener{
         travessao.glLoadIdentity(); //lê a matriz identidade
 
         GL2 traveE = drawable.getGL().getGL2();
+        traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        traveE.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 testeGol = drawable.getGL().getGL2();
         traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
         traveE.glLoadIdentity(); //lê a matriz identidade
 
@@ -109,6 +117,90 @@ public class Cena implements GLEventListener{
         linhaGolV11.glClear(GL2.GL_COLOR_BUFFER_BIT);
         linhaGolV11.glLoadIdentity(); //lê a matriz identidade
 
+        GL2 linhaGolV12 = drawable.getGL().getGL2();
+        linhaGolV12.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV12.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV13 = drawable.getGL().getGL2();
+        linhaGolV13.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV13.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV14 = drawable.getGL().getGL2();
+        linhaGolV14.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV14.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV15 = drawable.getGL().getGL2();
+        linhaGolV15.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV15.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV16 = drawable.getGL().getGL2();
+        linhaGolV16.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV16.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV17 = drawable.getGL().getGL2();
+        linhaGolV17.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV17.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV18 = drawable.getGL().getGL2();
+        linhaGolV18.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV18.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV19 = drawable.getGL().getGL2();
+        linhaGolV19.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV19.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV20 = drawable.getGL().getGL2();
+        linhaGolV20.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV20.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV21 = drawable.getGL().getGL2();
+        linhaGolV21.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV21.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV22 = drawable.getGL().getGL2();
+        linhaGolV22.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV22.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV23 = drawable.getGL().getGL2();
+        linhaGolV23.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV23.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV24 = drawable.getGL().getGL2();
+        linhaGolV24.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV24.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV25 = drawable.getGL().getGL2();
+        linhaGolV25.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV25.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV26 = drawable.getGL().getGL2();
+        linhaGolV26.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV26.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV27 = drawable.getGL().getGL2();
+        linhaGolV27.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV27.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV28 = drawable.getGL().getGL2();
+        linhaGolV28.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV28.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV29 = drawable.getGL().getGL2();
+        linhaGolV29.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV29.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV30 = drawable.getGL().getGL2();
+        linhaGolV30.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV30.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV31 = drawable.getGL().getGL2();
+        linhaGolV31.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV31.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 linhaGolV32 = drawable.getGL().getGL2();
+        linhaGolV32.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        linhaGolV32.glLoadIdentity(); //lê a matriz identidade
+
         /*
             desenho da cena
         */
@@ -158,6 +250,15 @@ public class Cena implements GLEventListener{
         travessao.glVertex2f(-0.9f, -0.65f);
         travessao.glEnd();
 
+        //desenha o gol do cenário
+//        testeGol.glColor3f(1,1,1);
+//        testeGol.glBegin(GL2.GL_QUADS);
+//        testeGol.glVertex2f(0.9f, -0.65f);
+//        testeGol.glVertex2f(0.9f, -1f);
+//        testeGol.glVertex2f(-0.9f, -1f);
+//        testeGol.glVertex2f(-0.9f, -0.65f);
+//        testeGol.glEnd();
+//
         //desenha o gol do cenário
         linhaGol1.glColor3f(0.6f,0.6f,0.6f);
         linhaGol1.glBegin(GL2.GL_QUADS);
@@ -292,6 +393,87 @@ public class Cena implements GLEventListener{
         linhaGolV11.glVertex2f(0.08f, -1f);
         linhaGolV11.glVertex2f(0.08f, -0.7f);
         linhaGolV11.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV12.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV12.glBegin(GL2.GL_QUADS);
+        linhaGolV12.glVertex2f(0.03f, -0.7f);
+        linhaGolV12.glVertex2f(0.03f, -1f);
+        linhaGolV12.glVertex2f(0.01f, -1f);
+        linhaGolV12.glVertex2f(0.01f, -0.7f);
+        linhaGolV12.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV13.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV13.glBegin(GL2.GL_QUADS);
+        linhaGolV13.glVertex2f(-0.04f, -0.7f);
+        linhaGolV13.glVertex2f(-0.04f, -1f);
+        linhaGolV13.glVertex2f(-0.06f, -1f);
+        linhaGolV13.glVertex2f(-0.06f, -0.7f);
+        linhaGolV13.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV14.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV14.glBegin(GL2.GL_QUADS);
+        linhaGolV14.glVertex2f(-0.11f, -0.7f);
+        linhaGolV14.glVertex2f(-0.11f, -1f);
+        linhaGolV14.glVertex2f(-0.13f, -1f);
+        linhaGolV14.glVertex2f(-0.13f, -0.7f);
+        linhaGolV14.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV15.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV15.glBegin(GL2.GL_QUADS);
+        linhaGolV15.glVertex2f(-0.18f, -0.7f);
+        linhaGolV15.glVertex2f(-0.18f, -1f);
+        linhaGolV15.glVertex2f(-0.2f, -1f);
+        linhaGolV15.glVertex2f(-0.2f, -0.7f);
+        linhaGolV15.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV16.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV16.glBegin(GL2.GL_QUADS);
+        linhaGolV16.glVertex2f(-0.25f, -0.7f);
+        linhaGolV16.glVertex2f(-0.25f, -1f);
+        linhaGolV16.glVertex2f(-0.27f, -1f);
+        linhaGolV16.glVertex2f(-0.27f, -0.7f);
+        linhaGolV16.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV17.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV17.glBegin(GL2.GL_QUADS);
+        linhaGolV17.glVertex2f(-0.31f, -0.7f);
+        linhaGolV17.glVertex2f(-0.31f, -1f);
+        linhaGolV17.glVertex2f(-0.33f, -1f);
+        linhaGolV17.glVertex2f(-0.33f, -0.7f);
+        linhaGolV17.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV18.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV18.glBegin(GL2.GL_QUADS);
+        linhaGolV18.glVertex2f(-0.38f, -0.7f);
+        linhaGolV18.glVertex2f(-0.38f, -1f);
+        linhaGolV18.glVertex2f(-0.40f, -1f);
+        linhaGolV18.glVertex2f(-0.40f, -0.7f);
+        linhaGolV18.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV19.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV19.glBegin(GL2.GL_QUADS);
+        linhaGolV19.glVertex2f(-0.45f, -0.7f);
+        linhaGolV19.glVertex2f(-0.45f, -1f);
+        linhaGolV19.glVertex2f(-0.47f, -1f);
+        linhaGolV19.glVertex2f(-0.47f, -0.7f);
+        linhaGolV19.glEnd();
+
+        //desenha o gol do cenário
+        linhaGolV20.glColor3f(0.6f,0.6f,0.6f);
+        linhaGolV20.glBegin(GL2.GL_QUADS);
+        linhaGolV20.glVertex2f(-0.52f, -0.7f);
+        linhaGolV20.glVertex2f(-0.52f, -1f);
+        linhaGolV20.glVertex2f(-0.54f, -1f);
+        linhaGolV20.glVertex2f(-0.54f, -0.7f);
+        linhaGolV20.glEnd();
 
         barra.glFlush();
 
