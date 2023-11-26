@@ -1,9 +1,6 @@
 import com.jogamp.newt.event.KeyEvent;
 import com.jogamp.newt.event.KeyListener;
-/**
- *
- * @author Kakugawa
- */
+
 public class KeyBoard implements KeyListener {
     private Cena cena;
 
@@ -21,12 +18,12 @@ public class KeyBoard implements KeyListener {
             System.out.println("Pressionou tecla a");
 
         if (e.getKeyChar() == 'p') {
-            if (cena.localizacaoXBarra <= 1) {
+            if (cena.localizacaoXBarra <= 0.82) {
                 cena.localizacaoXBarra += 0.1f;
             }
         }
         if (e.getKeyChar() == 'u') {
-            if (cena.localizacaoXBarra >= -1) {
+            if (cena.localizacaoXBarra >= -0.82) {
                 cena.localizacaoXBarra -= 0.1f;
             }
         }

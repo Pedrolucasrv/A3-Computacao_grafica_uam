@@ -3,20 +3,26 @@ import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
 import com.jogamp.newt.opengl.GLWindow;
+import textura.Textura;
 
+import javax.xml.xpath.XPath;
 
-import static com.jogamp.opengl.GL.GL_TEXTURE_2D;
-import static com.jogamp.opengl.GL.GL_TEXTURE_WRAP_S;
+import static com.jogamp.opengl.GL.*;
 
-/**
- *
- * @author Kakugawa
- */
 public class Cena implements GLEventListener{    
     private float xMin, xMax, yMin, yMax, zMin, zMax;
     public float localizacaoXBarra = 0f;
     GLU glu;
 
+    private Textura texturaCassio = null;
+    private Textura texturaGol = null;
+    private int totalTextura = 1;
+    private GL2 barra;
+    public static final String Cassio = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
+    public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
+    public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
     @Override
     public void init(GLAutoDrawable drawable) {
         //dados iniciais da cena
@@ -24,6 +30,9 @@ public class Cena implements GLEventListener{
         //Estabelece as coordenadas do SRU (Sistema de Referencia do Universo)
         xMin = yMin = zMin = -1;
         xMax = yMax = zMax = 1;
+
+        texturaCassio = new Textura(totalTextura);
+        texturaGol = new Textura(totalTextura);
     }
 
     @Override
@@ -37,9 +46,13 @@ public class Cena implements GLEventListener{
         fundo.glClear(GL2.GL_COLOR_BUFFER_BIT);
         fundo.glLoadIdentity(); //lê a matriz identidade
 
-        GL2 barra = drawable.getGL().getGL2();
+        barra = drawable.getGL().getGL2();
         barra.glClear(GL2.GL_COLOR_BUFFER_BIT);
         barra.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 gol = drawable.getGL().getGL2();
+        gol.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        gol.glLoadIdentity(); //lê a matriz identidade
 
         GL2 traveD = drawable.getGL().getGL2();
         traveD.glClear(GL2.GL_COLOR_BUFFER_BIT);
@@ -53,9 +66,9 @@ public class Cena implements GLEventListener{
         traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
         traveE.glLoadIdentity(); //lê a matriz identidade
 
-        GL2 testeGol = drawable.getGL().getGL2();
-        traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        traveE.glLoadIdentity(); //lê a matriz identidade
+
+
+
 
         GL2 linhaGol1 = drawable.getGL().getGL2();
         linhaGol1.glClear(GL2.GL_COLOR_BUFFER_BIT);
@@ -205,9 +218,16 @@ public class Cena implements GLEventListener{
             desenho da cena
         */
 
+        texturaCassio.setAutomatica(false);
+        texturaCassio.setFiltro(filtro);
+        texturaCassio.setModo(modo);
+        texturaCassio.setWrap(wrap);
+        texturaCassio.gerarTextura(barra, Cassio, 0);
+
         //seta um quadrado para ser o fundo
         fundo.glColor3f(0.0f,0.5f, 0.0f);
         fundo.glBegin(GL2.GL_QUADS);
+
         fundo.glVertex2f(1f, 1f);
         fundo.glVertex2f(1f, -1f);
         fundo.glVertex2f(-1f, -1f);
@@ -215,51 +235,71 @@ public class Cena implements GLEventListener{
         fundo.glEnd();
 
         //desenha a barra do jogo
-        barra.glColor3f(0,0,1);
+
+        barra.glColor3f(1,1,1);
         barra.glBegin(GL2.GL_QUADS);
-        barra.glVertex2f(localizacaoXBarra - 0.15f, -0.5f);
-        barra.glVertex2f(localizacaoXBarra - 0.15f, -0.6f);
-        barra.glVertex2f(localizacaoXBarra + 0.15f, -0.6f);
-        barra.glVertex2f(localizacaoXBarra + 0.15f, -0.5f);
+
+        barra.glTexCoord2f(0.0f, 1.0f); barra.glVertex2f(localizacaoXBarra - 0.16f, -0.5f);
+        barra.glTexCoord2f(0.0f, 0.0f); barra.glVertex2f(localizacaoXBarra - 0.16f, -0.6f);
+        barra.glTexCoord2f(1.0f, 0.0f); barra.glVertex2f(localizacaoXBarra + 0.16f, -0.6f);
+        barra.glTexCoord2f(1.0f, 1.0f); barra.glVertex2f(localizacaoXBarra + 0.16f, -0.5f);
+
         barra.glEnd();
 
-        //desenha o gol do cenário
-        traveD.glColor3f(1,1,1);
-        traveD.glBegin(GL2.GL_QUADS);
-        traveD.glVertex2f(0.9f, -0.65f);
-        traveD.glVertex2f(0.9f, -1f);
-        traveD.glVertex2f(0.85f, -1f);
-        traveD.glVertex2f(0.85f, -0.65f);
-        traveD.glEnd();
+        texturaCassio.desabilitarTextura(barra, 0);
+
 
         //desenha o gol do cenário
-        traveE.glColor3f(1,1,1);
-        traveE.glBegin(GL2.GL_QUADS);
-        traveE.glVertex2f(-0.9f, -0.65f);
-        traveE.glVertex2f(-0.9f, -1f);
-        traveE.glVertex2f(-0.85f, -1f);
-        traveE.glVertex2f(-0.85f, -0.65f);
-        traveE.glEnd();
 
-        //desenha o gol do cenário
-        travessao.glColor3f(1,1,1);
-        travessao.glBegin(GL2.GL_QUADS);
-        travessao.glVertex2f(0.9f, -0.65f);
-        travessao.glVertex2f(0.9f, -0.70f);
-        travessao.glVertex2f(-0.9f, -0.70f);
-        travessao.glVertex2f(-0.9f, -0.65f);
-        travessao.glEnd();
+        texturaGol.setAutomatica(false);
+        texturaGol.setFiltro(filtro);
+        texturaGol.setModo(modo);
+        texturaGol.setWrap(wrap);
+        texturaGol.gerarTextura(gol, Gol, 0);
 
-        //desenha o gol do cenário
-//        testeGol.glColor3f(1,1,1);
-//        testeGol.glBegin(GL2.GL_QUADS);
-//        testeGol.glVertex2f(0.9f, -0.65f);
-//        testeGol.glVertex2f(0.9f, -1f);
-//        testeGol.glVertex2f(-0.9f, -1f);
-//        testeGol.glVertex2f(-0.9f, -0.65f);
-//        testeGol.glEnd();
+        gol.glEnable(GL_BLEND);
+        gol.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        gol.glColor3f(1,1,1);
+        gol.glBegin(GL2.GL_QUADS);
+
+        gol.glTexCoord2f(1.0f, 0.0f); gol.glVertex2f(0.9f, -0.65f);
+        gol.glTexCoord2f(1.0f, 1.0f); gol.glVertex2f(0.9f, -1f);
+        gol.glTexCoord2f(0.0f, 1.0f); gol.glVertex2f(-0.9f, -1f);
+        gol.glTexCoord2f(0.0f, 0.0f); gol.glVertex2f(-0.9f, -0.65f);
+
+        gol.glEnd();
+
+        texturaGol.desabilitarTextura(barra, 0);
+
+//        traveD.glColor3f(1,1,1);
+//        traveD.glBegin(GL2.GL_QUADS);
+//        traveD.glVertex2f(0.9f, -0.65f);
+//        traveD.glVertex2f(0.9f, -1f);
+//        traveD.glVertex2f(0.85f, -1f);
+//        traveD.glVertex2f(0.85f, -0.65f);
+//        traveD.glEnd();
 //
-        //desenha o gol do cenário
+//        //desenha o gol do cenário
+//        traveE.glColor3f(1,1,1);
+//        traveE.glBegin(GL2.GL_QUADS);
+//        traveE.glVertex2f(-0.9f, -0.65f);
+//        traveE.glVertex2f(-0.9f, -1f);
+//        traveE.glVertex2f(-0.85f, -1f);
+//        traveE.glVertex2f(-0.85f, -0.65f);
+//        traveE.glEnd();
+//
+//        //desenha o gol do cenário
+//        travessao.glColor3f(1,1,1);
+//        travessao.glBegin(GL2.GL_QUADS);
+//        travessao.glVertex2f(0.9f, -0.65f);
+//        travessao.glVertex2f(0.9f, -0.70f);
+//        travessao.glVertex2f(-0.9f, -0.70f);
+//        travessao.glVertex2f(-0.9f, -0.65f);
+//        travessao.glEnd();
+
+
+   /*     //desenha o gol do cenário
         linhaGol1.glColor3f(0.6f,0.6f,0.6f);
         linhaGol1.glBegin(GL2.GL_QUADS);
         linhaGol1.glVertex2f(0.85f, -0.75f);
@@ -473,7 +513,7 @@ public class Cena implements GLEventListener{
         linhaGolV20.glVertex2f(-0.52f, -1f);
         linhaGolV20.glVertex2f(-0.54f, -1f);
         linhaGolV20.glVertex2f(-0.54f, -0.7f);
-        linhaGolV20.glEnd();
+        linhaGolV20.glEnd();*/
 
         barra.glFlush();
 
@@ -484,30 +524,36 @@ public class Cena implements GLEventListener{
         //obtem o contexto grafico Opengl
         GL2 gl = drawable.getGL().getGL2();
 
-        //evita a divisão por zero
-        if(height == 0) height = 1;
-        //calcula a proporção da janela (aspect ratio) da nova janela
-        float aspect = (float) width / height;
-        
-        //seta o viewport para abranger a janela inteira
-        gl.glViewport(0, 0, width, height);
-//
-//        //ativa a matriz de projeção
         gl.glMatrixMode(GL2.GL_PROJECTION);
         gl.glLoadIdentity(); //lê a matriz identidade
-        
-        //Projeção ortogonal
-        //true:   aspect >= 1 configura a altura de -1 para 1 : com largura maior
-        //false:  aspect < 1 configura a largura de -1 para 1 : com altura maior
-        if(width >= height)            
-            gl.glOrtho(xMin * aspect, xMax * aspect, yMin, yMax, zMin, zMax);
-        else        
-            gl.glOrtho(xMin, xMax, yMin / aspect, yMax / aspect, zMin, zMax);
-                
-        //ativa a matriz de modelagem
+        gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
-        gl.glLoadIdentity(); //lê a matriz identidade
-        System.out.println("Reshape: " + width + ", " + height);
+//
+//        //evita a divisão por zero
+//        if(height == 0) height = 1;
+//        //calcula a proporção da janela (aspect ratio) da nova janela
+//        float aspect = (float) width / height;
+//
+//        //seta o viewport para abranger a janela inteira
+//        gl.glViewport(0, 0, width, height);
+////
+////        //ativa a matriz de projeção
+//        gl.glMatrixMode(GL2.GL_PROJECTION);
+//        gl.glLoadIdentity(); //lê a matriz identidade
+//
+//        //Projeção ortogonal
+//        //true:   aspect >= 1 configura a altura de -1 para 1 : com largura maior
+//        //false:  aspect < 1 configura a largura de -1 para 1 : com altura maior
+//        if(width >= height)            {
+//            gl.glOrtho(xMin * aspect, xMax * aspect, yMin, yMax, zMin, zMax);
+//        }
+//        else
+//            gl.glOrtho(xMin, xMax, yMin / aspect, yMax / aspect, zMin, zMax);
+//
+//        //ativa a matriz de modelagem
+//        gl.glMatrixMode(GL2.GL_MODELVIEW);
+//        gl.glLoadIdentity(); //lê a matriz identidade
+//        System.out.println("Reshape: " + width + ", " + height);
     }    
        
     @Override

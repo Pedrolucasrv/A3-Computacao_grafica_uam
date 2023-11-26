@@ -4,10 +4,6 @@ import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.GLCapabilities;
 import com.jogamp.opengl.GLProfile;
 import com.jogamp.opengl.util.FPSAnimator;
-/**
- *
- * @author Kakugawa
- */
 public class Renderer {
     private static GLWindow window = null;
     public static int screenWidth = 480;  //1280
