@@ -33,8 +33,8 @@ public class Cena implements GLEventListener{
     public Textura texturaGol = null;
     public int totalTextura = 1;
     public GL2 barra;
-    public static final String Cassio = "C:/Users/SAITO/IdeaProjects/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
-    public static final String Gol = "C:/Users/SAITO/IdeaProjects/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public static final String Cassio = "C:/Users/win/Desktop/Computação Gráfica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "C:/Users/win/Desktop/Computação Gráfica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
     public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
     public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
     public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
@@ -211,21 +211,23 @@ public class Cena implements GLEventListener{
         float left = -0.3f;
         float begin = 0.8f;
 
-        drawText(left, begin -= 0.1f, size, "Bem vindo ao Pong Maroto");
-        drawText(left, begin -= 0.1f, size, "O propósito desse jogo é realizar o maior número de pontuação");
-        drawText(left, begin -= 0.1f, size, "com a rebatida da bola.");
+        drawText(left, begin -= 0.1f, size, "-----------------------------");
+        drawText(left, begin -= 0.1f, size, "|               PONG DO CÁSSIO               |");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
         drawText(left, begin -= 0.1f, size, "# Comandos:");
-        drawText(left, begin -= 0.1f, size, "- Mover bastão = < > ou A D");
+        drawText(left, begin -= 0.1f, size, "- Mover o Cássio = A (Esquerda) - D (Direita)");
         drawText(left, begin -= 0.1f, size, "- Pausar jogo = P");
-        drawText(left, begin -= 0.1f, size, "- Parar o jogo e ir para tela inicial = X");
+        drawText(left, begin -= 0.1f, size, "- Reiniciar o jogo = R");
+        drawText(left, begin -= 0.1f, size, "- Sair para a área de trabalho = ESC");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
-        drawText(left, begin -= 0.1f, size, "# Regras:");
-        drawText(left, begin -= 0.1f, size, "- A cada rebatida da bolinha, são computados 10 pontos");
-        drawText(left, begin -= 0.1f, size, "- Ao acumular 200 pontos o usuário passa para a segunda fase");
-        drawText(left, begin -= 0.1f, size, "- Na segunda fase os pontos são infinitos \\o/");
+        drawText(left, begin -= 0.1f, size, "# Como que o jogo funciona?:");
+        drawText(left, begin -= 0.1f, size, "- Você tem apenas 5 vidas! ");
+        drawText(left, begin -= 0.1f, size, "- A cada gol sofrido, você perde uma vida. NÃO É POSSÍVEL RECUPERÁ-LAS!");
+        drawText(left, begin -= 0.1f, size, "- A cada defesa do Cássio, são computados 10 pontos");
+        drawText(left, begin -= 0.1f, size, "- Ao acumular 200 pontos você passa para a segunda fase.");
+        drawText(left, begin -= 0.1f, size, "- Na segunda fase os pontos são infinitos!");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
-        drawText(left, begin -= 0.1f, size, "PRESSIONE S PARA INICIAR O JOGO");
+        drawText(left, begin -= 0.1f, size, "PRESSIONE C PARA INICIAR O JOGO");
     }
 
     public void rodaLevelUm() {
@@ -284,11 +286,11 @@ public class Cena implements GLEventListener{
         float begin = 0.8f;
         float left = -0.1f;
         drawText(left, begin -= 0.1f, "big", " -----------");
-        drawText(left, begin -= 0.1f, "big", "| GAME OVER |");
+        drawText(left, begin -= 0.1f, "big", "| FIM DO JOGO |");
         drawText(left, begin -= 0.1f, "big", " -----------");
         drawText(left, begin -= 0.1f, "big", "Pontuação final: " + pontuacao);
         drawText(left, begin -= 0.1f, "big", "Y - Menu inicial");
-        drawText(left, begin -= 0.1f, "big", "K - Fechar o jogo");
+        drawText(left, begin -= 0.1f, "big", "L | ESC - Sair para a área de trabalho");
     }
 
     public void drawText(float x, float y, String size, String phrase) {
@@ -424,13 +426,13 @@ public class Cena implements GLEventListener{
     public void drawVida(float pos, boolean filled) {
         gl.glPushMatrix();
         if (filled)
-            gl.glColor3f(1, 0.2f, 0);
+            gl.glColor3f(1, 0.5f, 0);
         else
             gl.glColor3f(1, 1, 1);
 
         gl.glTranslatef(0.4f + pos, 0.8f, 0);
 
-        glut.glutSolidTeapot(0.03f);
+        glut.glutSolidCone(0.05, 0.1, 3, 3);
         gl.glPopMatrix();
     }
 

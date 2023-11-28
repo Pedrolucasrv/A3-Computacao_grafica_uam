@@ -19,17 +19,7 @@ public class KeyBoard implements KeyListener {
                     cena.userBarMove = cena.userBarMove - 0.1f;
                 }
                 break;
-            case KeyEvent.VK_LEFT:
-                if (cena.userBarMove > -0.8 && !cena.jogoPause) {
-                    cena.userBarMove = cena.userBarMove - 0.1f;
-                }
-                break;
             case KeyEvent.VK_D:
-                if (cena.userBarMove < 0.8 && !cena.jogoPause) {
-                    cena.userBarMove = cena.userBarMove + 0.1f;
-                }
-                break;
-            case KeyEvent.VK_RIGHT:
                 if (cena.userBarMove < 0.8 && !cena.jogoPause) {
                     cena.userBarMove = cena.userBarMove + 0.1f;
                 }
@@ -37,12 +27,12 @@ public class KeyBoard implements KeyListener {
             case KeyEvent.VK_P:
                 cena.jogoPause = !cena.jogoPause;
                 break;
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_C:
                 if (cena.gameLevel == 0) {
                     cena.gameLevel = 1;
                 }
                 break;
-            case KeyEvent.VK_X:
+            case KeyEvent.VK_R:
                 if (cena.gameLevel > 0) {
                     cena.gameLevel = 0;
                     cena.reseta();
@@ -54,7 +44,7 @@ public class KeyBoard implements KeyListener {
                     cena.reseta();
                 }
                 break;
-            case KeyEvent.VK_K:
+            case KeyEvent.VK_L:
                 if (cena.gameLevel == 3) {
                     System.exit(0);
                 }
