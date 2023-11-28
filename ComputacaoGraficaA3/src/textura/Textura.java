@@ -8,13 +8,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class Textura {
-    private Texture vetTextures[]; //novo   
-    private float width;
-    private float height;
-    private int filtro;
-    private int modo;
-    private int wrap;
-    private boolean automatica;
+    public Texture vetTextures[]; //novo   
+    public float width;
+    public float height;
+    public int filtro;
+    public int modo;
+    public int wrap;
+    public boolean automatica;
 
     //Construtor da Classe Textura
     public Textura(int totalTextura) {
@@ -95,7 +95,7 @@ public class Textura {
      * @param fileName String - Localizacao do arquivo de imagem
      * @param indice int - indice da textura
      */
-    private void carregarTextura(String fileName, int indice) {
+    public void carregarTextura(String fileName, int indice) {
         Texture tex = null;
 
         //carrega o arquivo da imagem

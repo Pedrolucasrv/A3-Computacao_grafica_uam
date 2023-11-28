@@ -2,29 +2,45 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 import com.jogamp.opengl.GLEventListener;
 import com.jogamp.opengl.glu.GLU;
-import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.opengl.util.gl2.GLUT;
 import textura.Textura;
 
-import javax.xml.xpath.XPath;
+import java.util.Locale;
 
 import static com.jogamp.opengl.GL.*;
 
 public class Cena implements GLEventListener{    
-    private float xMin, xMax, yMin, yMax, zMin, zMax;
+    public float xMin, xMax, yMin, yMax, zMin, zMax;
     public float localizacaoXBarra = 0f;
     GLU glu;
+    public GL2 gl;
+    public GLUT glut;
+    public float aspect;
 
-    private Textura texturaCassio = null;
-    private Textura texturaGol = null;
-    private int totalTextura = 1;
-    private GL2 barra;
-    public static final String Cassio = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
-    public static final String Gol = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public int toning = GL2.GL_SMOOTH;
+    public boolean lightOn = true;
+    public float gameSpeed = 0.02f;
+    public char xDirection;
+    public char yDirection = 'd';
+    public int vida = 5;
+    public int pontuacao = 0;
+    public float xTranslateBall = 0;
+    public float yTranslateBall = 1f;
+    public float userBarMove = 0;
+    public boolean jogoPause = false;
+    public int gameLevel = 0;
+    public Textura texturaCassio = null;
+    public Textura texturaGol = null;
+    public int totalTextura = 1;
+    public GL2 barra;
+    public static final String Cassio = "C:/Users/SAITO/IdeaProjects/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "C:/Users/SAITO/IdeaProjects/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
     public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
     public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
     public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
     @Override
     public void init(GLAutoDrawable drawable) {
+        randomRunBall();
         //dados iniciais da cena
         glu = new GLU();
         //Estabelece as coordenadas do SRU (Sistema de Referencia do Universo)
@@ -36,7 +52,13 @@ public class Cena implements GLEventListener{
     }
 
     @Override
-    public void display(GLAutoDrawable drawable) {  
+    public void display(GLAutoDrawable drawable) {
+        gl = drawable.getGL().getGL2();
+        glut = new GLUT();
+
+        gl.glClearColor(0, 0, 0, 1);
+        gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT);
+        gl.glLoadIdentity();
         //obtem o contexto Opengl
 
         GL2 fundo = drawable.getGL().getGL2();
@@ -66,154 +88,6 @@ public class Cena implements GLEventListener{
         traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
         traveE.glLoadIdentity(); //lê a matriz identidade
 
-
-
-
-
-        GL2 linhaGol1 = drawable.getGL().getGL2();
-        linhaGol1.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGol1.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGol2 = drawable.getGL().getGL2();
-        linhaGol2.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGol2.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGol3 = drawable.getGL().getGL2();
-        linhaGol3.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGol3.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGol4 = drawable.getGL().getGL2();
-        linhaGol4.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGol4.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV1 = drawable.getGL().getGL2();
-        linhaGolV1.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV1.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV2 = drawable.getGL().getGL2();
-        linhaGolV2.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV2.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV3 = drawable.getGL().getGL2();
-        linhaGolV3.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV3.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV4 = drawable.getGL().getGL2();
-        linhaGolV4.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV4.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV5 = drawable.getGL().getGL2();
-        linhaGolV5.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV5.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV6 = drawable.getGL().getGL2();
-        linhaGolV6.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV6.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV7 = drawable.getGL().getGL2();
-        linhaGolV7.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV7.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV8 = drawable.getGL().getGL2();
-        linhaGolV8.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV8.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV9 = drawable.getGL().getGL2();
-        linhaGolV9.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV9.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV10 = drawable.getGL().getGL2();
-        linhaGolV10.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV10.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV11 = drawable.getGL().getGL2();
-        linhaGolV11.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV11.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV12 = drawable.getGL().getGL2();
-        linhaGolV12.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV12.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV13 = drawable.getGL().getGL2();
-        linhaGolV13.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV13.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV14 = drawable.getGL().getGL2();
-        linhaGolV14.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV14.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV15 = drawable.getGL().getGL2();
-        linhaGolV15.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV15.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV16 = drawable.getGL().getGL2();
-        linhaGolV16.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV16.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV17 = drawable.getGL().getGL2();
-        linhaGolV17.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV17.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV18 = drawable.getGL().getGL2();
-        linhaGolV18.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV18.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV19 = drawable.getGL().getGL2();
-        linhaGolV19.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV19.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV20 = drawable.getGL().getGL2();
-        linhaGolV20.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV20.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV21 = drawable.getGL().getGL2();
-        linhaGolV21.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV21.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV22 = drawable.getGL().getGL2();
-        linhaGolV22.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV22.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV23 = drawable.getGL().getGL2();
-        linhaGolV23.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV23.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV24 = drawable.getGL().getGL2();
-        linhaGolV24.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV24.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV25 = drawable.getGL().getGL2();
-        linhaGolV25.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV25.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV26 = drawable.getGL().getGL2();
-        linhaGolV26.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV26.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV27 = drawable.getGL().getGL2();
-        linhaGolV27.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV27.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV28 = drawable.getGL().getGL2();
-        linhaGolV28.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV28.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV29 = drawable.getGL().getGL2();
-        linhaGolV29.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV29.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV30 = drawable.getGL().getGL2();
-        linhaGolV30.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV30.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV31 = drawable.getGL().getGL2();
-        linhaGolV31.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV31.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 linhaGolV32 = drawable.getGL().getGL2();
-        linhaGolV32.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        linhaGolV32.glLoadIdentity(); //lê a matriz identidade
-
         /*
             desenho da cena
         */
@@ -234,7 +108,7 @@ public class Cena implements GLEventListener{
         fundo.glVertex2f(-1f, 1f);
         fundo.glEnd();
 
-        //desenha a barra do jogo
+        //draw a barra do jogo
 
         barra.glColor3f(1,1,1);
         barra.glBegin(GL2.GL_QUADS);
@@ -249,7 +123,7 @@ public class Cena implements GLEventListener{
         texturaCassio.desabilitarTextura(barra, 0);
 
 
-        //desenha o gol do cenário
+        //draw o gol do cenário
 
         texturaGol.setAutomatica(false);
         texturaGol.setFiltro(filtro);
@@ -272,251 +146,53 @@ public class Cena implements GLEventListener{
 
         texturaGol.desabilitarTextura(barra, 0);
 
-//        traveD.glColor3f(1,1,1);
-//        traveD.glBegin(GL2.GL_QUADS);
-//        traveD.glVertex2f(0.9f, -0.65f);
-//        traveD.glVertex2f(0.9f, -1f);
-//        traveD.glVertex2f(0.85f, -1f);
-//        traveD.glVertex2f(0.85f, -0.65f);
-//        traveD.glEnd();
-//
-//        //desenha o gol do cenário
-//        traveE.glColor3f(1,1,1);
-//        traveE.glBegin(GL2.GL_QUADS);
-//        traveE.glVertex2f(-0.9f, -0.65f);
-//        traveE.glVertex2f(-0.9f, -1f);
-//        traveE.glVertex2f(-0.85f, -1f);
-//        traveE.glVertex2f(-0.85f, -0.65f);
-//        traveE.glEnd();
-//
-//        //desenha o gol do cenário
-//        travessao.glColor3f(1,1,1);
-//        travessao.glBegin(GL2.GL_QUADS);
-//        travessao.glVertex2f(0.9f, -0.65f);
-//        travessao.glVertex2f(0.9f, -0.70f);
-//        travessao.glVertex2f(-0.9f, -0.70f);
-//        travessao.glVertex2f(-0.9f, -0.65f);
-//        travessao.glEnd();
-
-
-   /*     //desenha o gol do cenário
-        linhaGol1.glColor3f(0.6f,0.6f,0.6f);
-        linhaGol1.glBegin(GL2.GL_QUADS);
-        linhaGol1.glVertex2f(0.85f, -0.75f);
-        linhaGol1.glVertex2f(0.85f, -0.77f);
-        linhaGol1.glVertex2f(-0.85f, -0.77f);
-        linhaGol1.glVertex2f(-0.85f, -0.75f);
-        linhaGol1.glEnd();
-
-        //desenha o gol do cenário
-        linhaGol2.glColor3f(0.6f,0.6f,0.6f);
-        linhaGol2.glBegin(GL2.GL_QUADS);
-        linhaGol2.glVertex2f(0.85f, -0.82f);
-        linhaGol2.glVertex2f(0.85f, -0.84f);
-        linhaGol2.glVertex2f(-0.85f, -0.84f);
-        linhaGol2.glVertex2f(-0.85f, -0.82f);
-        linhaGol2.glEnd();
-
-        //desenha o gol do cenário
-        linhaGol3.glColor3f(0.6f,0.6f,0.6f);
-        linhaGol3.glBegin(GL2.GL_QUADS);
-        linhaGol3.glVertex2f(0.85f, -0.89f);
-        linhaGol3.glVertex2f(0.85f, -0.91f);
-        linhaGol3.glVertex2f(-0.85f, -0.91f);
-        linhaGol3.glVertex2f(-0.85f, -0.89f);
-        linhaGol3.glEnd();
-
-        //desenha o gol do cenário
-        linhaGol4.glColor3f(0.6f,0.6f,0.6f);
-        linhaGol4.glBegin(GL2.GL_QUADS);
-        linhaGol4.glVertex2f(0.85f, -0.96f);
-        linhaGol4.glVertex2f(0.85f, -0.98f);
-        linhaGol4.glVertex2f(-0.85f, -0.98f);
-        linhaGol4.glVertex2f(-0.85f, -0.96f);
-        linhaGol4.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV1.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV1.glBegin(GL2.GL_QUADS);
-        linhaGolV1.glVertex2f(0.80f, -0.7f);
-        linhaGolV1.glVertex2f(0.80f, -1f);
-        linhaGolV1.glVertex2f(0.78f, -1f);
-        linhaGolV1.glVertex2f(0.78f, -0.7f);
-        linhaGolV1.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV2.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV2.glBegin(GL2.GL_QUADS);
-        linhaGolV2.glVertex2f(0.73f, -0.7f);
-        linhaGolV2.glVertex2f(0.73f, -1f);
-        linhaGolV2.glVertex2f(0.71f, -1f);
-        linhaGolV2.glVertex2f(0.71f, -0.7f);
-        linhaGolV2.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV3.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV3.glBegin(GL2.GL_QUADS);
-        linhaGolV3.glVertex2f(0.66f, -0.7f);
-        linhaGolV3.glVertex2f(0.66f, -1f);
-        linhaGolV3.glVertex2f(0.64f, -1f);
-        linhaGolV3.glVertex2f(0.64f, -0.7f);
-        linhaGolV3.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV4.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV4.glBegin(GL2.GL_QUADS);
-        linhaGolV4.glVertex2f(0.59f, -0.7f);
-        linhaGolV4.glVertex2f(0.59f, -1f);
-        linhaGolV4.glVertex2f(0.57f, -1f);
-        linhaGolV4.glVertex2f(0.57f, -0.7f);
-        linhaGolV4.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV5.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV5.glBegin(GL2.GL_QUADS);
-        linhaGolV5.glVertex2f(0.52f, -0.7f);
-        linhaGolV5.glVertex2f(0.52f, -1f);
-        linhaGolV5.glVertex2f(0.50f, -1f);
-        linhaGolV5.glVertex2f(0.50f, -0.7f);
-        linhaGolV5.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV6.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV6.glBegin(GL2.GL_QUADS);
-        linhaGolV6.glVertex2f(0.45f, -0.7f);
-        linhaGolV6.glVertex2f(0.45f, -1f);
-        linhaGolV6.glVertex2f(0.43f, -1f);
-        linhaGolV6.glVertex2f(0.43f, -0.7f);
-        linhaGolV6.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV7.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV7.glBegin(GL2.GL_QUADS);
-        linhaGolV7.glVertex2f(0.38f, -0.7f);
-        linhaGolV7.glVertex2f(0.38f, -1f);
-        linhaGolV7.glVertex2f(0.36f, -1f);
-        linhaGolV7.glVertex2f(0.36f, -0.7f);
-        linhaGolV7.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV8.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV8.glBegin(GL2.GL_QUADS);
-        linhaGolV8.glVertex2f(0.31f, -0.7f);
-        linhaGolV8.glVertex2f(0.31f, -1f);
-        linhaGolV8.glVertex2f(0.29f, -1f);
-        linhaGolV8.glVertex2f(0.29f, -0.7f);
-        linhaGolV8.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV9.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV9.glBegin(GL2.GL_QUADS);
-        linhaGolV9.glVertex2f(0.24f, -0.7f);
-        linhaGolV9.glVertex2f(0.24f, -1f);
-        linhaGolV9.glVertex2f(0.22f, -1f);
-        linhaGolV9.glVertex2f(0.22f, -0.7f);
-        linhaGolV9.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV10.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV10.glBegin(GL2.GL_QUADS);
-        linhaGolV10.glVertex2f(0.17f, -0.7f);
-        linhaGolV10.glVertex2f(0.17f, -1f);
-        linhaGolV10.glVertex2f(0.15f, -1f);
-        linhaGolV10.glVertex2f(0.15f, -0.7f);
-        linhaGolV10.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV11.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV11.glBegin(GL2.GL_QUADS);
-        linhaGolV11.glVertex2f(0.10f, -0.7f);
-        linhaGolV11.glVertex2f(0.10f, -1f);
-        linhaGolV11.glVertex2f(0.08f, -1f);
-        linhaGolV11.glVertex2f(0.08f, -0.7f);
-        linhaGolV11.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV12.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV12.glBegin(GL2.GL_QUADS);
-        linhaGolV12.glVertex2f(0.03f, -0.7f);
-        linhaGolV12.glVertex2f(0.03f, -1f);
-        linhaGolV12.glVertex2f(0.01f, -1f);
-        linhaGolV12.glVertex2f(0.01f, -0.7f);
-        linhaGolV12.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV13.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV13.glBegin(GL2.GL_QUADS);
-        linhaGolV13.glVertex2f(-0.04f, -0.7f);
-        linhaGolV13.glVertex2f(-0.04f, -1f);
-        linhaGolV13.glVertex2f(-0.06f, -1f);
-        linhaGolV13.glVertex2f(-0.06f, -0.7f);
-        linhaGolV13.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV14.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV14.glBegin(GL2.GL_QUADS);
-        linhaGolV14.glVertex2f(-0.11f, -0.7f);
-        linhaGolV14.glVertex2f(-0.11f, -1f);
-        linhaGolV14.glVertex2f(-0.13f, -1f);
-        linhaGolV14.glVertex2f(-0.13f, -0.7f);
-        linhaGolV14.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV15.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV15.glBegin(GL2.GL_QUADS);
-        linhaGolV15.glVertex2f(-0.18f, -0.7f);
-        linhaGolV15.glVertex2f(-0.18f, -1f);
-        linhaGolV15.glVertex2f(-0.2f, -1f);
-        linhaGolV15.glVertex2f(-0.2f, -0.7f);
-        linhaGolV15.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV16.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV16.glBegin(GL2.GL_QUADS);
-        linhaGolV16.glVertex2f(-0.25f, -0.7f);
-        linhaGolV16.glVertex2f(-0.25f, -1f);
-        linhaGolV16.glVertex2f(-0.27f, -1f);
-        linhaGolV16.glVertex2f(-0.27f, -0.7f);
-        linhaGolV16.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV17.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV17.glBegin(GL2.GL_QUADS);
-        linhaGolV17.glVertex2f(-0.31f, -0.7f);
-        linhaGolV17.glVertex2f(-0.31f, -1f);
-        linhaGolV17.glVertex2f(-0.33f, -1f);
-        linhaGolV17.glVertex2f(-0.33f, -0.7f);
-        linhaGolV17.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV18.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV18.glBegin(GL2.GL_QUADS);
-        linhaGolV18.glVertex2f(-0.38f, -0.7f);
-        linhaGolV18.glVertex2f(-0.38f, -1f);
-        linhaGolV18.glVertex2f(-0.40f, -1f);
-        linhaGolV18.glVertex2f(-0.40f, -0.7f);
-        linhaGolV18.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV19.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV19.glBegin(GL2.GL_QUADS);
-        linhaGolV19.glVertex2f(-0.45f, -0.7f);
-        linhaGolV19.glVertex2f(-0.45f, -1f);
-        linhaGolV19.glVertex2f(-0.47f, -1f);
-        linhaGolV19.glVertex2f(-0.47f, -0.7f);
-        linhaGolV19.glEnd();
-
-        //desenha o gol do cenário
-        linhaGolV20.glColor3f(0.6f,0.6f,0.6f);
-        linhaGolV20.glBegin(GL2.GL_QUADS);
-        linhaGolV20.glVertex2f(-0.52f, -0.7f);
-        linhaGolV20.glVertex2f(-0.52f, -1f);
-        linhaGolV20.glVertex2f(-0.54f, -1f);
-        linhaGolV20.glVertex2f(-0.54f, -0.7f);
-        linhaGolV20.glEnd();*/
-
         barra.glFlush();
 
+        switch (gameLevel) {
+            case 0:
+                rodaMenu();
+                break;
+            case 1:
+                rodaLevelUm();
+                break;
+            case 2:
+                rodaLevelDois();
+                break;
+            case 3:
+                gameOver();
+                break;
+        }
+        if (lightOn) {
+            lithingScheme();
+            turnLightOn();
+        }
+        if (!lightOn) {
+            turnLightOff();
+        }
+
+    }
+
+    public void lithingScheme(){
+        float[] ambientLight = { 0.7f, 0.7f, 0.7f, 1f };
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_AMBIENT, ambientLight, 0);
+
+        float difuseLight[] = {0.8f, 0.8f, 0.8f, 1.0f};
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_DIFFUSE, difuseLight, 0);
+
+        float lightPosition[] = {-50.0f, 0.0f, 100.0f, 1.0f};
+        gl.glLightfv(GL2.GL_LIGHT0, GL2.GL_POSITION, lightPosition, 0);
+    }
+
+    public void turnLightOn() {
+        gl.glEnable(GL2.GL_COLOR_MATERIAL);
+        gl.glEnable(GL2.GL_LIGHTING);
+        gl.glEnable(GL2.GL_LIGHT0);
+        gl.glShadeModel(toning);
+    }
+
+    public void turnLightOff() {
+        gl.glDisable(GL2.GL_LIGHT0);
+        gl.glDisable(GL2.GL_LIGHTING);
     }
 
     @Override
@@ -528,33 +204,248 @@ public class Cena implements GLEventListener{
         gl.glLoadIdentity(); //lê a matriz identidade
         gl.glOrtho(xMin, xMax, yMin, yMax, zMin, zMax);
         gl.glMatrixMode(GL2.GL_MODELVIEW);
-//
-//        //evita a divisão por zero
-//        if(height == 0) height = 1;
-//        //calcula a proporção da janela (aspect ratio) da nova janela
-//        float aspect = (float) width / height;
-//
-//        //seta o viewport para abranger a janela inteira
-//        gl.glViewport(0, 0, width, height);
-////
-////        //ativa a matriz de projeção
-//        gl.glMatrixMode(GL2.GL_PROJECTION);
-//        gl.glLoadIdentity(); //lê a matriz identidade
-//
-//        //Projeção ortogonal
-//        //true:   aspect >= 1 configura a altura de -1 para 1 : com largura maior
-//        //false:  aspect < 1 configura a largura de -1 para 1 : com altura maior
-//        if(width >= height)            {
-//            gl.glOrtho(xMin * aspect, xMax * aspect, yMin, yMax, zMin, zMax);
-//        }
-//        else
-//            gl.glOrtho(xMin, xMax, yMin / aspect, yMax / aspect, zMin, zMax);
-//
-//        //ativa a matriz de modelagem
-//        gl.glMatrixMode(GL2.GL_MODELVIEW);
-//        gl.glLoadIdentity(); //lê a matriz identidade
-//        System.out.println("Reshape: " + width + ", " + height);
-    }    
+    }
+
+    public void rodaMenu() {
+        String size = "big";
+        float left = -0.3f;
+        float begin = 0.8f;
+
+        drawText(left, begin -= 0.1f, size, "Bem vindo ao Pong Maroto");
+        drawText(left, begin -= 0.1f, size, "O propósito desse jogo é realizar o maior número de pontuação");
+        drawText(left, begin -= 0.1f, size, "com a rebatida da bola.");
+        drawText(left, begin -= 0.1f, size, "-----------------------------");
+        drawText(left, begin -= 0.1f, size, "# Comandos:");
+        drawText(left, begin -= 0.1f, size, "- Mover bastão = < > ou A D");
+        drawText(left, begin -= 0.1f, size, "- Pausar jogo = P");
+        drawText(left, begin -= 0.1f, size, "- Parar o jogo e ir para tela inicial = X");
+        drawText(left, begin -= 0.1f, size, "-----------------------------");
+        drawText(left, begin -= 0.1f, size, "# Regras:");
+        drawText(left, begin -= 0.1f, size, "- A cada rebatida da bolinha, são computados 10 pontos");
+        drawText(left, begin -= 0.1f, size, "- Ao acumular 200 pontos o usuário passa para a segunda fase");
+        drawText(left, begin -= 0.1f, size, "- Na segunda fase os pontos são infinitos \\o/");
+        drawText(left, begin -= 0.1f, size, "-----------------------------");
+        drawText(left, begin -= 0.1f, size, "PRESSIONE S PARA INICIAR O JOGO");
+    }
+
+    public void rodaLevelUm() {
+        if (!jogoPause) {
+            ballPhysicsEngine();
+        } else {
+            drawText(-0.2f, 0, "big", "JOGO PAUSADO");
+        }
+
+        drawBola();
+
+        if (pontuacao == 200) {
+            gameLevel = 2;
+        }
+
+        if (vida == 0) {
+            gameLevel = 3;
+        }
+
+        drawText(0.8f, 0.9f, "big", "Score: " + pontuacao);
+
+        for (int i = 1; i <= 5; i++) {
+            if (vida >= i)
+                drawVida(0.1f * i, true);
+            else
+                drawVida(0.1f * i, false);
+        }
+    }
+
+    public void rodaLevelDois() {
+        gameSpeed = 0.03f;
+        if (!jogoPause) {
+            ballPhysicsEngine();
+        } else {
+            drawText(-0.2f, 0, "big", "JOGO PAUSADO");
+        }
+
+        drawBola();
+        drawObstaculo();
+
+        if (vida == 0) {
+            gameLevel = 3;
+        }
+
+        drawText(0.8f, 0.9f, "big", "Pontuação: " + pontuacao);
+
+        for (int i = 1; i <= 5; i++) {
+            if (vida >= i)
+                drawVida(0.1f * i, true);
+            else
+                drawVida(0.1f * i, false);
+        }
+    }
+
+    public void gameOver() {
+        float begin = 0.8f;
+        float left = -0.1f;
+        drawText(left, begin -= 0.1f, "big", " -----------");
+        drawText(left, begin -= 0.1f, "big", "| GAME OVER |");
+        drawText(left, begin -= 0.1f, "big", " -----------");
+        drawText(left, begin -= 0.1f, "big", "Pontuação final: " + pontuacao);
+        drawText(left, begin -= 0.1f, "big", "Y - Menu inicial");
+        drawText(left, begin -= 0.1f, "big", "K - Fechar o jogo");
+    }
+
+    public void drawText(float x, float y, String size, String phrase) {
+        gl.glRasterPos2f(x, y);
+        switch (size) {
+            case "small":
+                glut.glutBitmapString(GLUT.BITMAP_8_BY_13, phrase);
+                break;
+            case "big":
+                glut.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, phrase);
+        }
+    }
+
+    public boolean isObjectInYRange(float xObj, float yObj, float bLimit, float tLimit, float xPoint) {
+        if (tLimit >= yObj && bLimit <= yObj && xObj == xPoint) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isObjectInXRange(float xObj, float heightObj, float lLimit, float rLimit, float tLimit) {
+        if (lLimit <= xObj && rLimit >= xObj && heightObj == tLimit) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void randomRunBall() {
+        double xRandom = -0.8f + Math.random() * 1.6f;
+        if (xRandom > 0) {
+            xDirection = 'r';
+        } else {
+            xDirection = 'l';
+        }
+        xTranslateBall = Float.valueOf(String.format(Locale.US, "%.2f", xRandom));
+    }
+
+    public void ballPhysicsEngine() {
+        float xTransBallFixed = Float.valueOf(String.format(Locale.US, "%.1f", xTranslateBall));
+        float yTransBallFixed = Float.valueOf(String.format(Locale.US, "%.1f", yTranslateBall));
+
+        if (gameLevel == 2 && xDirection == 'l'
+                && isObjectInYRange(xTransBallFixed, yTransBallFixed, -0.1f, 0.5f, 0.2f)) {
+            xDirection = 'r';
+        }
+        if (gameLevel == 2 && xDirection == 'r'
+                && isObjectInYRange(xTransBallFixed, yTransBallFixed, -0.1f, 0.5f, -0.2f)) {
+            xDirection = 'l';
+        } else if (xTransBallFixed > -1f && xDirection == 'l') {
+            xTranslateBall -= gameSpeed/2;
+        } else if (xTransBallFixed == -1f && xDirection == 'l') {
+            xDirection = 'r';
+        } else if (xTransBallFixed < 1f && xDirection == 'r') {
+            xTranslateBall += gameSpeed/2;
+        } else if (xTransBallFixed == 1f && xDirection == 'r') {
+            xDirection = 'l';
+        }
+
+        if (gameLevel == 2 && yDirection == 'u'
+                && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, -0.2f)) {
+            yDirection = 'd';
+        } else if (gameLevel == 2 && yDirection == 'd'
+                && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, 0.6f)) {
+            yDirection = 'u';
+        } else if (yTransBallFixed == -0.7f && yDirection == 'd'
+                && isBallInRangeOfBar(xTransBallFixed)) {
+            yDirection = 'u';
+            lightOn = false;
+            toning = toning == GL2.GL_SMOOTH ? GL2.GL_FLAT : GL2.GL_SMOOTH;
+            pontuacao += 10;
+        } else if (yTransBallFixed < 0.9f && yDirection == 'u') {
+            yTranslateBall += gameSpeed;
+        } else if (yTransBallFixed == 0.9f && yDirection == 'u') {
+            yDirection = 'd';
+        } else if (yTransBallFixed < -1f) {
+            yTranslateBall = 1f;
+            xTranslateBall = 0;
+            vida--;
+            randomRunBall();
+        } else {
+            yTranslateBall -= gameSpeed;
+            lightOn = true;
+            toning = toning == GL2.GL_SMOOTH ? GL2.GL_FLAT : GL2.GL_SMOOTH;
+        }
+    }
+
+    public void drawObstaculo() {
+        gl.glPushMatrix();
+        gl.glBegin(GL2.GL_QUADS);
+        gl.glColor3f(1, 1, 1);
+        gl.glVertex2f(-0.2f, 0.5f);
+        gl.glVertex2f(0.2f, 0.5f);
+        gl.glVertex2f(0.2f, -0.1f);
+        gl.glVertex2f(-0.2f, -0.1f);
+        gl.glEnd();
+        gl.glPopMatrix();
+    }
+
+    public boolean isBallInRangeOfBar(float xTranslatedBallFixed) {
+        float leftBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", userBarMove - 0.2f));
+        float rightBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", userBarMove + 0.2f));
+
+        if (leftBarLimit <= xTranslatedBallFixed && rightBarLimit >= xTranslatedBallFixed) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void drawBola() {
+        gl.glPushMatrix();
+        gl.glTranslatef(xTranslateBall, yTranslateBall, 0);
+        gl.glColor3f(1, 1, 1);
+
+        double limit = 2 * Math.PI;
+        double i;
+        double cX = 0;
+        double cY = 0;
+        double rX = 0.1f / aspect;
+        double rY = 0.1f;
+
+        gl.glBegin(GL2.GL_POLYGON);
+        for (i = 0; i < limit; i += 0.01) {
+            gl.glVertex2d(cX + rX * Math.cos(i), cY + rY * Math.sin(i));
+        }
+        gl.glEnd();
+
+        gl.glPopMatrix();
+    }
+
+    public void drawVida(float pos, boolean filled) {
+        gl.glPushMatrix();
+        if (filled)
+            gl.glColor3f(1, 0.2f, 0);
+        else
+            gl.glColor3f(1, 1, 1);
+
+        gl.glTranslatef(0.4f + pos, 0.8f, 0);
+
+        glut.glutSolidTeapot(0.03f);
+        gl.glPopMatrix();
+    }
+
+    public void reseta() {
+        xTranslateBall = 0;
+        yTranslateBall = 1f;
+        yDirection = 'd';
+
+        jogoPause = false;
+        gameLevel = 0;
+
+        userBarMove = 0;
+        pontuacao = 0;
+        vida = 5;
+    }
        
     @Override
     public void dispose(GLAutoDrawable drawable) {}         
