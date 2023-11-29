@@ -11,12 +11,10 @@ import static com.jogamp.opengl.GL.*;
 
 public class Cena implements GLEventListener{    
     public float xMin, xMax, yMin, yMax, zMin, zMax;
-    public float localizacaoXBarra = 0f;
     GLU glu;
     public GL2 gl;
     public GLUT glut;
     public float aspect;
-
     public int toning = GL2.GL_SMOOTH;
     public boolean lightOn = true;
     public float gameSpeed = 0.02f;
@@ -26,7 +24,7 @@ public class Cena implements GLEventListener{
     public int pontuacao = 0;
     public float xTranslateBall = 0;
     public float yTranslateBall = 1f;
-    public float userBarMove = 0;
+    public float localizacaoXBarra = 0f;
     public boolean jogoPause = false;
     public int gameLevel = 0;
     public Textura texturaCassio = null;
@@ -170,6 +168,7 @@ public class Cena implements GLEventListener{
             turnLightOff();
         }
 
+        gl.glFlush();
     }
 
     public void lithingScheme(){
@@ -209,10 +208,9 @@ public class Cena implements GLEventListener{
     public void rodaMenu() {
         String size = "big";
         float left = -0.3f;
-        float begin = 0.8f;
+        float begin = 0.9f;
 
-        drawText(left, begin -= 0.1f, size, "-----------------------------");
-        drawText(left, begin -= 0.1f, size, "|               PONG DO CÁSSIO               |");
+        drawText(left, begin -= 0.1f, size, "PONG DO CÁSSIO");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
         drawText(left, begin -= 0.1f, size, "# Comandos:");
         drawText(left, begin -= 0.1f, size, "- Mover o Cássio = A (Esquerda) - D (Direita)");
@@ -221,10 +219,8 @@ public class Cena implements GLEventListener{
         drawText(left, begin -= 0.1f, size, "- Sair para a área de trabalho = ESC");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
         drawText(left, begin -= 0.1f, size, "# Como que o jogo funciona?:");
-        drawText(left, begin -= 0.1f, size, "- Você tem apenas 5 vidas! ");
-        drawText(left, begin -= 0.1f, size, "- A cada gol sofrido, você perde uma vida. NÃO É POSSÍVEL RECUPERÁ-LAS!");
-        drawText(left, begin -= 0.1f, size, "- A cada defesa do Cássio, são computados 10 pontos");
-        drawText(left, begin -= 0.1f, size, "- Ao acumular 200 pontos você passa para a segunda fase.");
+        drawText(left, begin -= 0.1f, size, "- Você tem apenas 5 vidas! A cada gol sofrido, você perde uma vida. NÃO É POSSÍVEL RECUPERÁ-LAS!");
+        drawText(left, begin -= 0.1f, size, "- A cada defesa do Cássio, são computados 10 pontos. Ao acumular 200 pontos você passa para a segunda fase.");
         drawText(left, begin -= 0.1f, size, "- Na segunda fase os pontos são infinitos!");
         drawText(left, begin -= 0.1f, size, "-----------------------------");
         drawText(left, begin -= 0.1f, size, "PRESSIONE C PARA INICIAR O JOGO");
@@ -234,7 +230,7 @@ public class Cena implements GLEventListener{
         if (!jogoPause) {
             ballPhysicsEngine();
         } else {
-            drawText(-0.2f, 0, "big", "JOGO PAUSADO");
+            drawText(-0.1f, 0, "big", "JOGO PAUSADO");
         }
 
         drawBola();
@@ -247,7 +243,7 @@ public class Cena implements GLEventListener{
             gameLevel = 3;
         }
 
-        drawText(0.8f, 0.9f, "big", "Score: " + pontuacao);
+        drawText(-0.95f, 0.9f, "big", "Pontuação: " + pontuacao);
 
         for (int i = 1; i <= 5; i++) {
             if (vida >= i)
@@ -392,8 +388,8 @@ public class Cena implements GLEventListener{
     }
 
     public boolean isBallInRangeOfBar(float xTranslatedBallFixed) {
-        float leftBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", userBarMove - 0.2f));
-        float rightBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", userBarMove + 0.2f));
+        float leftBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", localizacaoXBarra - 0.2f));
+        float rightBarLimit = Float.valueOf(String.format(Locale.US, "%.1f", localizacaoXBarra + 0.2f));
 
         if (leftBarLimit <= xTranslatedBallFixed && rightBarLimit >= xTranslatedBallFixed) {
             return true;
@@ -428,9 +424,9 @@ public class Cena implements GLEventListener{
         if (filled)
             gl.glColor3f(1, 0.5f, 0);
         else
-            gl.glColor3f(1, 1, 1);
+            gl.glColor3f(0, 0.5f, 0);
 
-        gl.glTranslatef(0.4f + pos, 0.8f, 0);
+        gl.glTranslatef(0.425f + pos, 0.9f, 0);
 
         glut.glutSolidCone(0.05, 0.1, 3, 3);
         gl.glPopMatrix();
@@ -444,7 +440,7 @@ public class Cena implements GLEventListener{
         jogoPause = false;
         gameLevel = 0;
 
-        userBarMove = 0;
+        localizacaoXBarra = 0;
         pontuacao = 0;
         vida = 5;
     }
