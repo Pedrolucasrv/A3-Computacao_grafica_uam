@@ -14,7 +14,6 @@ public class Cena implements GLEventListener{
     GLU glu;
     public GL2 gl;
     public GLUT glut;
-    public float aspect;
     public int toning = GL2.GL_SMOOTH;
     public boolean lightOn = true;
     public float gameSpeed = 0.02f;
@@ -33,9 +32,9 @@ public class Cena implements GLEventListener{
     public int totalTextura = 1;
     public GL2 barra;
     public GL2 corinthians;
-    public static final String Cassio = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
-    public static final String Gol = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
-    public static final String Corinthians = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/corinthians.png";
+    public static final String Cassio = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public static final String Corinthians = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/corinthians.png";
     public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
     public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
     public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
@@ -240,7 +239,7 @@ public class Cena implements GLEventListener{
     }
 
     public void rodaMenu() {
-        String size = "big";
+        String size = "helv_18";
         float left = -0.3f;
         float begin = 0.9f;
 
@@ -264,7 +263,7 @@ public class Cena implements GLEventListener{
         if (!jogoPause) {
             ballPhysicsEngine();
         } else {
-            drawText(-0.1f, 0, "big", "JOGO PAUSADO");
+            drawText(-0.1f, 0, "helv_18", "JOGO PAUSADO");
         }
 
         drawBola();
@@ -277,7 +276,7 @@ public class Cena implements GLEventListener{
             gameLevel = 3;
         }
 
-        drawText(-0.95f, 0.9f, "big", "Pontuação: " + pontuacao);
+        drawText(-0.95f, 0.9f, "helv_18", "Pontuação: " + pontuacao);
 
         for (int i = 1; i <= 5; i++) {
             if (vida >= i)
@@ -292,17 +291,17 @@ public class Cena implements GLEventListener{
         if (!jogoPause) {
             ballPhysicsEngine();
         } else {
-            drawText(-0.2f, 0, "big", "JOGO PAUSADO");
+            drawText(-0.2f, 0, "helv_18", "JOGO PAUSADO");
         }
 
         drawBola();
-        drawObstaculo();
+        drawObstaculo1();
 
         if (vida == 0) {
             gameLevel = 3;
         }
 
-        drawText(0.8f, 0.9f, "big", "Pontuação: " + pontuacao);
+        drawText(-0.95f, 0.9f, "helv_18", "Pontuação: " + pontuacao);
 
         for (int i = 1; i <= 5; i++) {
             if (vida >= i)
@@ -313,24 +312,21 @@ public class Cena implements GLEventListener{
     }
 
     public void gameOver() {
+        String size = "helv_18";
         float begin = 0.8f;
         float left = -0.1f;
-        drawText(left, begin -= 0.1f, "big", " -----------");
-        drawText(left, begin -= 0.1f, "big", "| FIM DO JOGO |");
-        drawText(left, begin -= 0.1f, "big", " -----------");
-        drawText(left, begin -= 0.1f, "big", "Pontuação final: " + pontuacao);
-        drawText(left, begin -= 0.1f, "big", "Y - Menu inicial");
-        drawText(left, begin -= 0.1f, "big", "L | ESC - Sair para a área de trabalho");
+        drawText(left, begin -= 0.1f, size, " -----------");
+        drawText(left, begin -= 0.1f, size, "| FIM DO JOGO |");
+        drawText(left, begin -= 0.1f, size, " -----------");
+        drawText(left, begin -= 0.1f, size, "Pontuação final: " + pontuacao);
+        drawText(left, begin -= 0.1f, size, "Y - Menu inicial");
+        drawText(left, begin -= 0.1f, size, "L | ESC - Sair para a área de trabalho");
     }
 
     public void drawText(float x, float y, String size, String phrase) {
         gl.glRasterPos2f(x, y);
-        switch (size) {
-            case "small":
-                glut.glutBitmapString(GLUT.BITMAP_8_BY_13, phrase);
-                break;
-            case "big":
-                glut.glutBitmapString(GLUT.BITMAP_TIMES_ROMAN_24, phrase);
+        if (size.equals("helv_18")) {
+            glut.glutBitmapString(GLUT.BITMAP_HELVETICA_18, phrase);
         }
     }
 
@@ -385,7 +381,7 @@ public class Cena implements GLEventListener{
                 && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, -0.2f)) {
             yDirection = 'd';
         } else if (gameLevel == 2 && yDirection == 'd'
-                && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, 0.6f)) {
+                && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, 0.4f)) {
             yDirection = 'u';
         } else if (yTransBallFixed == -0.5f && yDirection == 'd'
                 && isBallInRangeOfBar(xTransBallFixed)) {
@@ -409,12 +405,12 @@ public class Cena implements GLEventListener{
         }
     }
 
-    public void drawObstaculo() {
+    public void drawObstaculo1() {
         gl.glPushMatrix();
-        gl.glBegin(GL2.GL_QUADS);
+        gl.glBegin(GL2.GL_POLYGON);
         gl.glColor3f(1, 1, 1);
-        gl.glVertex2f(-0.2f, 0.5f);
-        gl.glVertex2f(0.2f, 0.5f);
+        gl.glVertex2f(-0.1f, 0.2f);
+        gl.glVertex2f(0.1f, 0.2f);
         gl.glVertex2f(0.2f, -0.1f);
         gl.glVertex2f(-0.2f, -0.1f);
         gl.glEnd();
