@@ -29,10 +29,13 @@ public class Cena implements GLEventListener{
     public int gameLevel = 0;
     public Textura texturaCassio = null;
     public Textura texturaGol = null;
+    public Textura texturaCorinthians = null;
     public int totalTextura = 1;
     public GL2 barra;
-    public static final String Cassio = "C:/Users/win/Desktop/Computação Gráfica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
-    public static final String Gol = "C:/Users/win/Desktop/Computação Gráfica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public GL2 corinthians;
+    public static final String Cassio = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public static final String Corinthians = "E:/Materias uam/A3ComputacaoGrafica//A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/corinthians.png";
     public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
     public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
     public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
@@ -47,6 +50,7 @@ public class Cena implements GLEventListener{
 
         texturaCassio = new Textura(totalTextura);
         texturaGol = new Textura(totalTextura);
+        texturaCorinthians = new Textura(totalTextura);
     }
 
     @Override
@@ -70,21 +74,14 @@ public class Cena implements GLEventListener{
         barra.glClear(GL2.GL_COLOR_BUFFER_BIT);
         barra.glLoadIdentity(); //lê a matriz identidade
 
+        corinthians = drawable.getGL().getGL2();
+        corinthians.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        corinthians.glLoadIdentity(); //lê a matriz identidade
+
         GL2 gol = drawable.getGL().getGL2();
         gol.glClear(GL2.GL_COLOR_BUFFER_BIT);
         gol.glLoadIdentity(); //lê a matriz identidade
 
-        GL2 traveD = drawable.getGL().getGL2();
-        traveD.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        traveD.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 travessao = drawable.getGL().getGL2();
-        travessao.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        travessao.glLoadIdentity(); //lê a matriz identidade
-
-        GL2 traveE = drawable.getGL().getGL2();
-        traveE.glClear(GL2.GL_COLOR_BUFFER_BIT);
-        traveE.glLoadIdentity(); //lê a matriz identidade
 
         /*
             desenho da cena
@@ -106,7 +103,7 @@ public class Cena implements GLEventListener{
         fundo.glVertex2f(-1f, 1f);
         fundo.glEnd();
 
-        //draw a barra do jogo
+        //desenha a barra do jogo
 
         barra.glColor3f(1,1,1);
         barra.glBegin(GL2.GL_QUADS);
@@ -121,7 +118,44 @@ public class Cena implements GLEventListener{
         texturaCassio.desabilitarTextura(barra, 0);
 
 
-        //draw o gol do cenário
+        texturaCorinthians.setAutomatica(false);
+        texturaCorinthians.setFiltro(filtro);
+        texturaCorinthians.setModo(modo);
+        texturaCorinthians.setWrap(wrap);
+        texturaCorinthians.gerarTextura(barra, Corinthians, 0);
+
+        corinthians.glColor3f(1,1,1);
+        corinthians.glBegin(GL2.GL_QUADS);
+
+        corinthians.glTexCoord2f(0.0f, 1.0f); corinthians.glVertex2f( 0.9f, 0.2f);
+        corinthians.glTexCoord2f(0.0f, 0.0f); corinthians.glVertex2f(0.9f, -0.1f);
+        corinthians.glTexCoord2f(1.0f, 0.0f); corinthians.glVertex2f(0.6f, -0.1f);
+        corinthians.glTexCoord2f(1.0f, 1.0f); corinthians.glVertex2f( 0.6f, 0.2f);
+
+        corinthians.glEnd();
+
+        texturaCorinthians.desabilitarTextura(barra, 0);
+
+        texturaCorinthians.setAutomatica(false);
+        texturaCorinthians.setFiltro(filtro);
+        texturaCorinthians.setModo(modo);
+        texturaCorinthians.setWrap(wrap);
+        texturaCorinthians.gerarTextura(barra, Corinthians, 0);
+
+        corinthians.glColor3f(1,1,1);
+        corinthians.glBegin(GL2.GL_QUADS);
+
+        corinthians.glTexCoord2f(0.0f, 1.0f); corinthians.glVertex2f( -0.9f, 0.2f);
+        corinthians.glTexCoord2f(0.0f, 0.0f); corinthians.glVertex2f(-0.9f, -0.1f);
+        corinthians.glTexCoord2f(1.0f, 0.0f); corinthians.glVertex2f(-0.6f, -0.1f);
+        corinthians.glTexCoord2f(1.0f, 1.0f); corinthians.glVertex2f( -0.6f, 0.2f);
+
+        corinthians.glEnd();
+
+        texturaCorinthians.desabilitarTextura(barra, 0);
+
+
+        //desenha o gol do cenário
 
         texturaGol.setAutomatica(false);
         texturaGol.setFiltro(filtro);
@@ -353,7 +387,7 @@ public class Cena implements GLEventListener{
         } else if (gameLevel == 2 && yDirection == 'd'
                 && isObjectInXRange(xTransBallFixed, yTransBallFixed, -0.2f, 0.2f, 0.6f)) {
             yDirection = 'u';
-        } else if (yTransBallFixed == -0.7f && yDirection == 'd'
+        } else if (yTransBallFixed == -0.5f && yDirection == 'd'
                 && isBallInRangeOfBar(xTransBallFixed)) {
             yDirection = 'u';
             lightOn = false;
@@ -400,14 +434,14 @@ public class Cena implements GLEventListener{
 
     public void drawBola() {
         gl.glPushMatrix();
-        gl.glTranslatef(xTranslateBall, yTranslateBall, 0);
+        gl.glTranslatef(xTranslateBall, yTranslateBall, 1);
         gl.glColor3f(1, 1, 1);
 
         double limit = 2 * Math.PI;
         double i;
         double cX = 0;
         double cY = 0;
-        double rX = 0.1f / aspect;
+        double rX = 0.1f / 2;
         double rY = 0.1f;
 
         gl.glBegin(GL2.GL_POLYGON);
