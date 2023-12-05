@@ -29,12 +29,16 @@ public class Cena implements GLEventListener{
     public Textura texturaCassio = null;
     public Textura texturaGol = null;
     public Textura texturaCorinthians = null;
+    public Textura texturaEndrick = null;
+    public Textura texturaPalmeiras = null;
     public int totalTextura = 1;
     public GL2 barra;
     public GL2 corinthians;
-    public static final String Cassio = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
-    public static final String Gol = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
-    public static final String Corinthians = "C:/Users/win/Desktop/Computação Gráfica/A3-CG/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/corinthians.png";
+    public static final String Cassio = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/cassio.jpg";
+    public static final String Gol = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/gol.png";
+    public static final String Corinthians = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/corinthians.png";
+    public static final String Endrick = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/endrick.jpg";
+    public static final String Palmeiras = "E:/Materias uam/A3ComputacaoGrafica/A3-Computacao_grafica_uam/ComputacaoGraficaA3/imagens/palmeiras.png";
     public int filtro = GL2.GL_LINEAR; ////GL_NEAREST ou GL_LINEAR
     public int wrap = GL2.GL_REPEAT;  //GL.GL_REPEAT ou GL.GL_CLAMP
     public int modo = GL2.GL_MODULATE; ////GL.GL_MODULATE ou GL.GL_DECAL ou GL.GL_BLEND
@@ -50,6 +54,8 @@ public class Cena implements GLEventListener{
         texturaCassio = new Textura(totalTextura);
         texturaGol = new Textura(totalTextura);
         texturaCorinthians = new Textura(totalTextura);
+        texturaEndrick = new Textura(totalTextura);
+        texturaPalmeiras = new Textura(totalTextura);
     }
 
     @Override
@@ -78,6 +84,10 @@ public class Cena implements GLEventListener{
         corinthians.glLoadIdentity(); //lê a matriz identidade
 
         GL2 gol = drawable.getGL().getGL2();
+        gol.glClear(GL2.GL_COLOR_BUFFER_BIT);
+        gol.glLoadIdentity(); //lê a matriz identidade
+
+        GL2 palmeiras = drawable.getGL().getGL2();
         gol.glClear(GL2.GL_COLOR_BUFFER_BIT);
         gol.glLoadIdentity(); //lê a matriz identidade
 
@@ -121,7 +131,7 @@ public class Cena implements GLEventListener{
         texturaCorinthians.setFiltro(filtro);
         texturaCorinthians.setModo(modo);
         texturaCorinthians.setWrap(wrap);
-        texturaCorinthians.gerarTextura(barra, Corinthians, 0);
+        texturaCorinthians.gerarTextura(corinthians, Corinthians, 0);
 
         corinthians.glColor3f(1,1,1);
         corinthians.glBegin(GL2.GL_QUADS);
@@ -135,23 +145,23 @@ public class Cena implements GLEventListener{
 
         texturaCorinthians.desabilitarTextura(barra, 0);
 
-        texturaCorinthians.setAutomatica(false);
-        texturaCorinthians.setFiltro(filtro);
-        texturaCorinthians.setModo(modo);
-        texturaCorinthians.setWrap(wrap);
-        texturaCorinthians.gerarTextura(barra, Corinthians, 0);
+        texturaPalmeiras.setAutomatica(false);
+        texturaPalmeiras.setFiltro(filtro);
+        texturaPalmeiras.setModo(modo);
+        texturaPalmeiras.setWrap(wrap);
+        texturaPalmeiras.gerarTextura(palmeiras, Palmeiras, 0);
 
-        corinthians.glColor3f(1,1,1);
-        corinthians.glBegin(GL2.GL_QUADS);
+        palmeiras.glColor3f(1,1,1);
+        palmeiras.glBegin(GL2.GL_QUADS);
 
-        corinthians.glTexCoord2f(0.0f, 1.0f); corinthians.glVertex2f( -0.9f, 0.2f);
-        corinthians.glTexCoord2f(0.0f, 0.0f); corinthians.glVertex2f(-0.9f, -0.1f);
-        corinthians.glTexCoord2f(1.0f, 0.0f); corinthians.glVertex2f(-0.6f, -0.1f);
-        corinthians.glTexCoord2f(1.0f, 1.0f); corinthians.glVertex2f( -0.6f, 0.2f);
+        palmeiras.glTexCoord2f(0.0f, 1.0f); palmeiras.glVertex2f( -0.9f, 0.2f);
+        palmeiras.glTexCoord2f(0.0f, 0.0f); palmeiras.glVertex2f(-0.9f, -0.1f);
+        palmeiras.glTexCoord2f(1.0f, 0.0f); palmeiras.glVertex2f(-0.6f, -0.1f);
+        palmeiras.glTexCoord2f(1.0f, 1.0f); palmeiras.glVertex2f( -0.6f, 0.2f);
 
-        corinthians.glEnd();
+        palmeiras.glEnd();
 
-        texturaCorinthians.desabilitarTextura(barra, 0);
+        texturaPalmeiras.desabilitarTextura(palmeiras, 0);
 
 
         //desenha o gol do cenário
@@ -287,7 +297,7 @@ public class Cena implements GLEventListener{
     }
 
     public void rodaLevelDois() {
-        gameSpeed = 0.03f;
+        gameSpeed = 0.05f;
         if (!jogoPause) {
             ballPhysicsEngine();
         } else {
@@ -406,15 +416,28 @@ public class Cena implements GLEventListener{
     }
 
     public void drawObstaculo1() {
+
+        texturaEndrick.setAutomatica(false);
+        texturaEndrick.setFiltro(filtro);
+        texturaEndrick.setModo(modo);
+        texturaEndrick.setWrap(wrap);
+        texturaEndrick.gerarTextura(barra, Endrick, 0);
+
         gl.glPushMatrix();
-        gl.glBegin(GL2.GL_POLYGON);
+        gl.glBegin(GL2.GL_QUADS);
         gl.glColor3f(1, 1, 1);
-        gl.glVertex2f(-0.1f, 0.2f);
-        gl.glVertex2f(0.1f, 0.2f);
-        gl.glVertex2f(0.2f, -0.1f);
-        gl.glVertex2f(-0.2f, -0.1f);
+        gl.glTexCoord2f(1.0f, 0.0f); gl.glVertex2f(0.2f, 0.35f);
+        gl.glTexCoord2f(1.0f, 1.0f); gl.glVertex2f(0.2f, -0.1f);
+        gl.glTexCoord2f(0.0f, 1.0f); gl.glVertex2f(-0.2f, -0.1f);
+        gl.glTexCoord2f(0.0f, 0.0f); gl.glVertex2f(-0.2f, 0.35f);
         gl.glEnd();
         gl.glPopMatrix();
+
+        gl.glEnd();
+
+        texturaEndrick.desabilitarTextura(barra, 0);
+
+
     }
 
     public boolean isBallInRangeOfBar(float xTranslatedBallFixed) {
